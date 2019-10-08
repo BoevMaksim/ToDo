@@ -18,17 +18,15 @@ const App = props => {
   const [maxID, setMaxID] = useState(100);
 
   useEffect(() => {
-    // setTodoData(
-    //   todoData.unshift({
-    //     label: 'Drink Coffee',
-    //     important: false,
-    //     id: 5,
-    //     done: false
-    //   })
-    // );
-    console.log(todoData);
+    changeMax();
     //eslint-disable-next-line
   }, []);
+
+  const changeMax = () => {
+    let id = maxID;
+    id += 1;
+    setMaxID(id);
+  };
 
   const deleteItem = id => {
     const inx = todoData.findIndex(el => el.id === id);
@@ -46,28 +44,28 @@ const App = props => {
 
   const onToggleDone = id => {
     const tempArr = [...todoData];
-    toggleProperty(tempArr, id, 'done');
-    setTodoData(tempArr);
+    const newArr = toggleProperty(tempArr, id, 'done');
+    setTodoData(newArr);
   };
 
   const onToggleImportant = id => {
     const tempArr = [...todoData];
-    toggleProperty(tempArr, id, 'important');
-    setTodoData(tempArr);
+    const newArr = toggleProperty(tempArr, id, 'important');
+    setTodoData(newArr);
   };
 
   const addItem = text => {
     const newItem = {
       label: text,
       important: false,
-      id: 1,
+      id: maxID,
       done: false
     };
-    const tempArr = [...todoData, newItem];
-    console.log(newItem);
+    changeMax();
+    const tempArr = [...todoData];
+    tempArr.push(newItem);
     setTodoData(tempArr);
   };
-  console.log(todoData);
   const arrForCount = [...todoData];
   const doneCount = arrForCount.filter(el => el.done).length;
   const todoCount = arrForCount.length - doneCount;
