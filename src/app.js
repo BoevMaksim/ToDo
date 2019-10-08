@@ -9,8 +9,11 @@ import AddItemForm from './components/add-item-form';
 import './app.css';
 
 export default class App extends Component {
+  componentDidMount() {
+    console.log('Testing branches')
+  }
 
-   maxID =100;
+  maxID =100;
 
    state = {
       todoData: [
@@ -81,7 +84,7 @@ export default class App extends Component {
          const newArr = [
             ...todoData,
             newItem
-         ]
+         ];
          return{
             todoData: newArr
          }
