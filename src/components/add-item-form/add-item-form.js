@@ -13,6 +13,7 @@ const AddItemForm = ( {onAddedItem} ) => {
     const onSubmit = (e) => {
         e.preventDefault();
         onAddedItem(label);
+        setLabel('');
     };
 
         return(
@@ -21,7 +22,9 @@ const AddItemForm = ( {onAddedItem} ) => {
                 <input  type = 'text'
                     className = 'form-control'
                     onChange = {onLabelChange}
-                    placeholder = 'What needs to be done' />
+                    placeholder = 'What needs to be done'
+                    value = {label}
+                    required />
                 <button className='btn btn-outline-secondary' >
                     Add Item
                 </button>
