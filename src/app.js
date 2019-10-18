@@ -27,12 +27,12 @@ const App = () => {
    
       const inx = todoData.findIndex ((el) => el.id === id);
 
-      const newArrey = [
+      const newArray = [
            ...todoData.slice(0, inx),
            ...todoData.slice(inx+1)
         ];
 
-        setTodoData (newArrey);
+        setTodoData (newArray);
      };
 
    const toggleProperty = (arr, id, propName) => {
@@ -48,11 +48,13 @@ const App = () => {
    };
 
    const onToggleDone = (id) => {
-      setTodoData(toggleProperty(todoData, id, 'done')) 
+      const propDone = toggleProperty(todoData, id, 'done');
+      setTodoData(propDone); 
    };
 
    const onToggleImportant = (id) =>{
-      setTodoData(toggleProperty(todoData, id, 'important'))
+      const propImportant = toggleProperty(todoData, id, 'important');
+      setTodoData(propImportant);
    };
 
    const addItem = (text) => {
@@ -68,14 +70,34 @@ const App = () => {
    const doneCount = todoData.filter( (el) => el.done ).length;
    const todoCount = todoData.length - doneCount;
 
+   const onSearchChange = (inpsrh) => {
+     setInpsrh(inpsrh);
+   };
+
+   const search = (items, inpsrh) => {
+      if (inpsrh === 0) {
+         return items
+      };
+     return items.filter((item) => {
+         return item.label
+               .toLowerCase()
+               .indexOf(inpsrh.toLowerCase()) > -1;
+      });
+   };
+
+   const [inpsrh, setInpsrh] = useState('');
+
+   const visablItems = search(todoData, inpsrh);
+
       return (
          <div className="todo-app">
             <AppHeader toDo={todoCount} done={doneCount} />
          <div className="top-panel d-flex">
-            <SearchPanel />
+            <SearchPanel 
+            onSearchChange = {onSearchChange} />
             <ItemStatusFilter />
          </div>
-            <TodoList todos={todoData} 
+            <TodoList todos={visablItems} 
             onToggleDone={onToggleDone}
             onToggleImportant={onToggleImportant}
             onDeleted={deleteItem} />
