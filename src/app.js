@@ -70,6 +70,8 @@ const App = () => {
    const doneCount = todoData.filter( (el) => el.done ).length;
    const todoCount = todoData.length - doneCount;
 
+   const [inpsrh, setInpsrh] = useState('');
+
    const onSearchChange = (inpsrh) => {
      setInpsrh(inpsrh);
    };
@@ -85,9 +87,24 @@ const App = () => {
       });
    };
 
-   const [inpsrh, setInpsrh] = useState('');
+   
 
-   const visablItems = search(todoData, inpsrh);
+   const [filter, setFilter] = useState('all');
+
+   const filterFunc = (items, filter) => {
+      switch(filter) {
+         case 'all' : return items;
+         case 'active' : return items.filter( (item) => !item.done);
+         case 'done' : return items.filter( (item) => item.done);
+      default: return items;
+      }
+   };
+
+   const onFilterChange = (filter) => {
+         setFilter(filter);
+   };
+   
+   const visablItems = filterFunc(search(todoData, inpsrh), filter);
 
       return (
          <div className="todo-app">
@@ -95,7 +112,9 @@ const App = () => {
          <div className="top-panel d-flex">
             <SearchPanel 
             onSearchChange = {onSearchChange} />
-            <ItemStatusFilter />
+            <ItemStatusFilter 
+            filter = {filter}
+            onFilterChange = {onFilterChange} />
          </div>
             <TodoList todos={visablItems} 
             onToggleDone={onToggleDone}
